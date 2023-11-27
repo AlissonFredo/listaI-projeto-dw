@@ -1,0 +1,76 @@
+#containerLogin {
+    display: flex;
+    max-width: 500px;
+    text-align:justify;
+    background-color: #eff0f1dc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing:content-box;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .form-control{
+    width: 100%;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border: 1px solid #6c757d;
+    }
+
+    .form-label{
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+    font-weight: bold;
+  }
+
+  #campoNome{
+    width: 100%;
+  }
+
+  #campoSenha{
+    width: 50%;
+  }
+
+  #dadosLogin{
+    width: 500px;
+  }
+
+  #botaoCadastro{
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  #botaoVoltar{
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  #botaoForm{
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .custom-height-input {
+    height: 37.5px;
+    text-align: center;
+  }
+
+  #cabecalho{
+    background-color: #4CAF50;
+    color: #f0f0f0;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  #fundo{
+    background-color: white;
+  }

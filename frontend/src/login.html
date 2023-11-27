@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Compras - Entrar</title>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    </link>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title h1 {
+            color: #4CAF50;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-box {
+            margin-bottom: 40px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #6c757d;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .password-container {
+            position: relative;
+
+        }
+
+        #showPassword {
+            cursor: pointer;
+            position: absolute;
+            top: 100%;
+            background-color: transparent;
+            border: none;
+            color: #4CAF50;
+            right: 0;
+        }
+
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .custom-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            /* Cor desejada */
+            color: #fff;
+            /* Cor do texto no botão */
+            border: 1px solid #6c757d;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-btn:hover {
+            background-color: #45a049;
+            /* Cor desejada no hover */
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form">
+            <div>
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Login</h1>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="username">Nome de usuario</label>
+                        <input id="username" name="username" class="form-control" placeholder="Digite seu username"
+                            autofocus required>
+                    </div>
+                    <div class="input-box">
+                        <label for="password">Senha</label>
+                        <div class="password-container">
+                            <input id="password" type="password" name="password" class="form-control"
+                                placeholder="Digite sua senha" required>
+                            <button id="showPassword" aria-label="Mostrar Senha" tabindex="-1">Mostrar Senha</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-button">
+                    <div class="login-button">
+                        <button class="custom-btn" onclick="logar()"><span tabindex="-1">Entrar</span></button>
+                    </div>
+                    <div class="forgot-button">
+                        <button class="custom-btn"><a href="#" tabindex="-1">Esqueci a minha senha</a></button>
+                    </div>
+                    <div class="create-button">
+                        <button class="custom-btn"><a href="registrar.html" tabindex="-1">Não tem conta? <br>
+                                Cadastrar</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../js/login.js"></script>
+    <script>
+        document.getElementById("showPassword").addEventListener("click", function () {
+            var passwordField = document.getElementById("password");
+            var showPasswordButton = document.getElementById("showPassword");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                showPasswordButton.textContent = "Ocultar Senha";
+            } else {
+                passwordField.type = "password";
+                showPasswordButton.textContent = "Mostrar Senha";
+            }
+        });
+    </script>
+</body>
+
+</html>
