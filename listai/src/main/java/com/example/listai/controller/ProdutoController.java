@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,22 +26,26 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @CrossOrigin
     @GetMapping("/all")
     public List<Produto> all() {
         return produtoRepository.findAll();
     }
 
+    @CrossOrigin
     @GetMapping("/show/{id}")
     public Produto show(@PathVariable Long id) {
         Produto produto = produtoRepository.findById(id).orElse(null);
         return produto;
     }
 
+    @CrossOrigin
     @PostMapping
     public Produto create(@RequestBody Produto produto) {
         return produtoRepository.save(produto);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Produto produto) {
         Produto currentProduto = produtoRepository.findById(id)
@@ -54,9 +59,12 @@ public class ProdutoController {
         return ResponseEntity.ok(currentProduto);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirProduto(@PathVariable Long id) {
-        Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntidadeExcepition("Produto", id));
+        Produto produto = produtoRepository
+                .findById(id)
+                .orElseThrow(() -> new EntidadeExcepition("Produto", id));
 
         if (produto.getId() != null) {
             produtoRepository.deleteById(id);

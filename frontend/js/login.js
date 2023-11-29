@@ -22,11 +22,14 @@ async function logar() {
 
             if (responseLogin.status != 200) throw new Error("Falha ao executar request");
 
+            const usuario = await responseLogin.json()
+
+            sessionStorage.setItem('usuario', JSON.stringify(usuario));
+
             window.location.href = "/frontend/src/home.html";
         } catch (error) {
             console.log(error);
         }
-
     } else {
         console.log("não validou!");
     }

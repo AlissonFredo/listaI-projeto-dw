@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/produtos/**").permitAll()
+                        .requestMatchers("/lista/**").permitAll()
                         .anyRequest().authenticated());
 
         http.headers(headers -> headers

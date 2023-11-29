@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.listai.dto.LoginDto;
 import com.example.listai.dto.SignUpDto;
+import com.example.listai.dto.UserResponseDto;
 import com.example.listai.entity.Endereco;
 import com.example.listai.entity.Role;
 import com.example.listai.entity.User;
@@ -45,13 +47,32 @@ public class HomeController {
 
     @CrossOrigin
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getUsername(),
+                            loginDto.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseEntity<>("User login successfully!...", HttpStatus.OK);
+            User usuario = userRepository.findByUserName(loginDto.getUsername());
+
+            if (usuario != null) {
+                UserResponseDto userResponse = new UserResponseDto(
+                        usuario.getId(),
+                        usuario.getUserName(),
+                        usuario.getEmail());
+
+                return ResponseEntity.ok(userResponse);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @CrossOrigin
