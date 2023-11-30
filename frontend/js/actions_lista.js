@@ -6,15 +6,28 @@ const handleSubmitLista = async () => {
             //  pegar produtos da tabela
             const trProdutos = document.getElementById('tbody_produtos').childNodes
 
-            const produtos = []
+            const url = "http://localhost:8080/produtos/create"
 
-            for (let index = 0; index < trProdutos.length; index++) {
-                const value = {
-                    nome: trProdutos[index].childNodes[0].value,
-                    categoria: trProdutos[index].childNodes[1].value
+            try {
+                for (let index = 0; index < trProdutos.length; index++) {
+                    const value = {
+                        nome: trProdutos[index].childNodes[0].value,
+                        categoria: trProdutos[index].childNodes[1].value,
+                        listaId: lista.id
+                    }
+
+                    await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Origin': 'http://127.0.0.1:5500'
+                        },
+                        body: JSON.stringify(value)
+                    });
+
                 }
-
-                produtos.push(value)
+            } catch (error) {
+                console.log(error);
             }
         }
     }
@@ -90,4 +103,101 @@ const handleGetUserSession = () => {
     }
 
     return usuario
+}
+
+const handleGetAllLista = async () => {
+    const usuario = handleGetUserSession()
+
+    if (!usuario) {
+        console.log('Nenhum usuário encontrado no localStorage');
+        return
+    }
+
+    const url = `http://localhost:8080/lista/all/${usuario.id}`
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Origin': 'http://127.0.0.1:5500'
+            }
+        });
+
+        if (response.status != 200) throw new Error("Falha ao executar request");
+
+        const listas = await response.json()
+
+        handleListaTrCreation(listas)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const handleListaTrCreation = (listas) => {
+    const tbody = document.getElementById('tbody_listas')
+
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    listas.forEach(lista => {
+        const tdName = document.createElement('td')
+        tdName.textContent = lista.nome
+        tdName.value = lista.nome
+
+        const tdData = document.createElement('td')
+        tdData.textContent = lista.dataCriacao
+        tdData.value = lista.dataCriacao
+
+        const iEdit = document.createElement('i')
+        iEdit.className = 'fa-solid fa-pen-to-square'
+
+        const buttonEdit = document.createElement('button')
+        buttonEdit.title = 'Editar'
+        buttonEdit.className = 'btn btn-secondary btn-sm'
+        // buttonEdit.onclick = () => handleTheClickOnTheProductEditButton(singleKey)
+        buttonEdit.appendChild(iEdit)
+
+        const iDelete = document.createElement('i')
+        iDelete.className = 'fa-solid fa-trash'
+
+        const buttonDelete = document.createElement('button')
+        buttonDelete.title = 'Excluir'
+        buttonDelete.className = 'btn btn-danger btn-sm'
+        buttonDelete.onclick = () => handleRemoveListaFromTable(lista.id)
+        buttonDelete.appendChild(iDelete)
+
+        const tdActions = document.createElement('td')
+        tdActions.className = 'd-flex justify-content-around'
+        tdActions.appendChild(buttonEdit)
+        tdActions.appendChild(buttonDelete)
+
+        const trLista = document.createElement('tr')
+        trLista.id = lista.id
+        trLista.appendChild(tdName)
+        trLista.appendChild(tdData)
+        trLista.appendChild(tdActions)
+
+        tbody.appendChild(trLista)
+    });
+}
+
+const handleRemoveListaFromTable = async (id) => {
+    const url = `http://localhost:8080/lista/${id}`
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Origin': 'http://127.0.0.1:5500'
+            }
+        });
+
+        if (response.status != 200) throw new Error("Falha ao executar request");
+
+        await handleGetAllLista()
+    } catch (error) {
+        console.log(error);
+    }
 }

@@ -7,6 +7,7 @@
     <title>Lista de Compras - Bem vindo</title>
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     </link>
+    <script src="https://kit.fontawesome.com/7357625a24.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-light">
@@ -64,6 +65,15 @@
     </div>
 
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../js/actions_lista.js"></script>
+    <script type="text/javascript" src="../js/login_validation.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            handleGetUserSessionValidation()
+            handleGetAllLista();
+        });
+    </script>
 </body>
 
 </html>

@@ -26,6 +26,14 @@ public class Produto {
     @JoinColumn(name = "lista_id")
     private Lista lista;
 
+    // public Lista getLista() {
+    //     return lista;
+    // }
+
+    public void setLista(Lista lista) {
+        this.lista = lista;
+    }
+
     public Long getId() {
         return id;
     }

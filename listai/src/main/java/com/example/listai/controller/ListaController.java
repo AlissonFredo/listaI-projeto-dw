@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.listai.repository.ListaRepository;
-import com.example.listai.repository.UserRepository;
 import com.example.listai.utils.EntidadeExcepition;
 import com.example.listai.dto.ListaDto;
 import com.example.listai.entity.Lista;
@@ -29,13 +28,20 @@ public class ListaController {
     @Autowired
     private ListaRepository listaRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @CrossOrigin
-    @GetMapping("/all")
-    public List<Lista> all() {
-        return listaRepository.findAll();
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<?> all(@PathVariable Long userId) {
+        try {
+            List<Lista> listas = listaRepository.findByUsuarioId(userId);
+
+            if (!listas.isEmpty()) {
+                return ResponseEntity.ok(listas);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @CrossOrigin
@@ -49,25 +55,22 @@ public class ListaController {
     @PostMapping("create")
     public ResponseEntity<?> create(@RequestBody ListaDto listaDto) {
         try {
-            User usuario = userRepository.findUserById(listaDto.getUsuarioId());
+            User usuario = new User();
+            usuario.setId(listaDto.getUsuarioId());
 
-            if (usuario != null) {
-                Lista lista = new Lista();
-                lista.setNome(listaDto.getNome());
-                lista.setDataCriacao(listaDto.getDataCriacao());
-                lista.setUsuario(usuario);
+            Lista lista = new Lista();
+            lista.setNome(listaDto.getNome());
+            lista.setDataCriacao(listaDto.getDataCriacao());
+            lista.setUsuario(usuario);
 
-                Lista createdLista = listaRepository.save(lista);
+            Lista createdLista = listaRepository.save(lista);
 
-                if (createdLista != null) {
-                    return ResponseEntity.ok(createdLista);
-                } else {
-                    return ResponseEntity
-                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .build();
-                }
+            if (createdLista != null) {
+                return ResponseEntity.ok(createdLista);
             } else {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .build();
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

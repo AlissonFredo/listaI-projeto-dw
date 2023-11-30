@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.listai.repository.ProdutoRepository;
 import com.example.listai.utils.EntidadeExcepition;
+import com.example.listai.dto.ProdutoDto;
+import com.example.listai.entity.Lista;
 import com.example.listai.entity.Produto;
 
 @RestController
@@ -40,9 +42,29 @@ public class ProdutoController {
     }
 
     @CrossOrigin
-    @PostMapping
-    public Produto create(@RequestBody Produto produto) {
-        return produtoRepository.save(produto);
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody ProdutoDto produtoDto) {
+        try {
+            Lista lista = new Lista();
+            lista.setId(produtoDto.getListaId());
+
+            Produto produto = new Produto();
+            produto.setNome(produtoDto.getNome());
+            produto.setCategoria(produtoDto.getCategoria());
+            produto.setLista(lista);
+
+            Produto createdProduto = produtoRepository.save(produto);
+
+            if (createdProduto != null) {
+                return ResponseEntity.ok(createdProduto);
+            } else {
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @CrossOrigin
