@@ -52,15 +52,18 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h5>Listas de compras</h5>
+                <h5>Iniciar compras</h5>
             </div>
             <div class="card-body">
                 <div class="row" style="min-height: 300px;">
-                    <ul class="list-group" id="ul-lista-compra">
+                    <ul class="list-group" id="ul-iniciar-compras">
+
                     </ul>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-end">
+                <a href="home.html" class="btn btn-danger me-2">Voltar</a>
+                <button class="btn btn-primary">Finalizar compras</button>
             </div>
         </div>
     </div>
@@ -69,13 +72,12 @@
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../js/login_validation.js"></script>
     <script type="text/javascript" src="../js/logout.js"></script>
-    <script type="text/javascript" src="../js/action_home.js"></script>
+    <script type="text/javascript" src="../js/actions_shopping.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             handleGetUserSessionValidation()
-            handleGetAllLista()
-        });
+        }); handleFillScreenWithData()
     </script>
 </body>
 

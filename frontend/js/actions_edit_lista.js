@@ -26,6 +26,7 @@ const handleFillScreenWithData = () => {
         buttonEdit.title = 'Editar'
         buttonEdit.className = 'btn btn-secondary btn-sm'
         buttonEdit.onclick = () => { }
+        buttonEdit.disabled = true
         buttonEdit.appendChild(iEdit)
 
         const iDelete = document.createElement('i')

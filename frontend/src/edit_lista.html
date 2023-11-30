@@ -80,7 +80,7 @@
                                     style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     Nome do produto
                                 </label>
-                                <input name="nome_produto" type="text" class="form-control" id="nome_produto"
+                                <input disabled name="nome_produto" type="text" class="form-control" id="nome_produto"
                                     placeholder="Digite o nome do produto">
                                 <p id="erro_nome_produto" class="text-danger bt-3 d-none">O campo é obrigatório!</p>
                             </div>
@@ -90,7 +90,7 @@
                                     style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     Categoria do produto
                                 </label>
-                                <select name="categoria_produto" class="form-select" id="categoria_produto">
+                                <select name="categoria_produto" class="form-select" id="categoria_produto" disabled>
                                     <option value="selected" selected>Selecione uma categoria</option>
                                     <option value="Bebidas">Bebidas</option>
                                     <option value="Bazar">Bazar</option>
@@ -110,7 +110,7 @@
 
                             <div class="col-md-12 d-flex justify-content-end">
                                 <button id="submit_button_product" class="btn btn-primary"
-                                    onclick="">
+                                    onclick="" disabled>
                                     Adicionar produto
                                 </button>
                             </div>
