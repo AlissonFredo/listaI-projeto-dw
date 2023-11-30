@@ -11,5 +11,4 @@ import com.example.listai.entity.Lista;
 public interface ListaRepository extends JpaRepository<Lista, Long> {
 
     List<Lista> findByUsuarioId(Long userId);
-
 }

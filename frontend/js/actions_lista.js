@@ -3,33 +3,38 @@ const handleSubmitLista = async () => {
         const lista = await handleSaveLista()
 
         if (lista) {
-            //  pegar produtos da tabela
-            const trProdutos = document.getElementById('tbody_produtos').childNodes
-
-            const url = "http://localhost:8080/produtos/create"
-
-            try {
-                for (let index = 0; index < trProdutos.length; index++) {
-                    const value = {
-                        nome: trProdutos[index].childNodes[0].value,
-                        categoria: trProdutos[index].childNodes[1].value,
-                        listaId: lista.id
-                    }
-
-                    await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Origin': 'http://127.0.0.1:5500'
-                        },
-                        body: JSON.stringify(value)
-                    });
-
-                }
-            } catch (error) {
-                console.log(error);
-            }
+            await handleSaveProduto(lista)
         }
+
+        window.location.href = "/frontend/src/search_lista.html";
+    }
+}
+
+const handleSaveProduto = async (lista) => {
+    const trProdutos = document.getElementById('tbody_produtos').childNodes
+
+    const url = "http://localhost:8080/produtos/create"
+
+    try {
+        for (let index = 0; index < trProdutos.length; index++) {
+            const value = {
+                nome: trProdutos[index].childNodes[0].value,
+                categoria: trProdutos[index].childNodes[1].value,
+                listaId: lista.id
+            }
+
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Origin': 'http://127.0.0.1:5500'
+                },
+                body: JSON.stringify(value)
+            });
+
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -155,7 +160,7 @@ const handleListaTrCreation = (listas) => {
         const buttonEdit = document.createElement('button')
         buttonEdit.title = 'Editar'
         buttonEdit.className = 'btn btn-secondary btn-sm'
-        // buttonEdit.onclick = () => handleTheClickOnTheProductEditButton(singleKey)
+        buttonEdit.onclick = () => handleRedirectToListEdit(lista)
         buttonEdit.appendChild(iEdit)
 
         const iDelete = document.createElement('i')
@@ -200,4 +205,12 @@ const handleRemoveListaFromTable = async (id) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+const handleRedirectToListEdit = (lista) => {
+    sessionStorage.removeItem('lista');
+
+    sessionStorage.setItem('lista', JSON.stringify(lista));
+
+    window.location.href = "/frontend/src/edit_lista.html";
 }

@@ -79,13 +79,15 @@ public class ListaController {
 
     @CrossOrigin
     @PutMapping("/id")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Lista lista) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ListaDto listaDto) {
         Lista currentLista = listaRepository
                 .findById(id)
                 .orElseThrow(() -> new EntidadeExcepition("Lista", id));
 
         if (currentLista.getId() != null) {
+            Lista lista = new Lista();
             lista.setId(id);
+            lista.setNome(listaDto.getNome());
             currentLista = listaRepository.save(lista);
         }
 

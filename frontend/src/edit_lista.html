@@ -55,7 +55,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h5>Criar lista de compras</h5>
+                <h5>Editar lista de compras</h5>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -134,7 +134,10 @@
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-end">
-                <button class="btn btn-primary" onclick="handleSubmitLista()">
+                <a class="btn btn-danger me-2" href="search_lista.html">
+                    Voltar
+                </a>
+                <button class="btn btn-primary" onclick="handleUpdateLista()">
                     Salvar
                 </button>
             </div>
@@ -142,14 +145,14 @@
     </div>
 
     <script type="text/javascript" src="../assets/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="../js/actions_prudutos.js"></script>
-    <script type="text/javascript" src="../js/actions_lista.js"></script>
     <script type="text/javascript" src="../js/login_validation.js"></script>
     <script type="text/javascript" src="../js/logout.js"></script>
+    <script type="text/javascript" src="../js/actions_edit_lista.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             handleGetUserSessionValidation()
+            handleFillScreenWithData()
         });
     </script>
 </body>
