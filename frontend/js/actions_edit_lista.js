@@ -96,7 +96,9 @@ const handleUpdateLista = async () => {
         }
 
         const request = {
-            nome: document.getElementById('nome_lista').value
+            nome: document.getElementById('nome_lista').value,
+            dataCriacao: lista.dataCriacao,
+            usuarioId: lista.usuario.id
         }
 
         const url = `http://localhost:8080/lista/${lista.id}`

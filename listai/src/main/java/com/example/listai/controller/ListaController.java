@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.listai.repository.ListaRepository;
+import com.example.listai.repository.UserRepository;
 import com.example.listai.utils.EntidadeExcepition;
 import com.example.listai.dto.ListaDto;
 import com.example.listai.entity.Lista;
@@ -27,6 +28,9 @@ import com.example.listai.entity.User;
 public class ListaController {
     @Autowired
     private ListaRepository listaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @CrossOrigin
     @GetMapping("/all/{userId}")
@@ -78,20 +82,32 @@ public class ListaController {
     }
 
     @CrossOrigin
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ListaDto listaDto) {
-        Lista currentLista = listaRepository
-                .findById(id)
-                .orElseThrow(() -> new EntidadeExcepition("Lista", id));
+        try {
+            Lista listaToUpdate = listaRepository.findById(id)
+                    .orElseThrow(() -> new EntidadeExcepition("Lista", id));
 
-        if (currentLista.getId() != null) {
-            Lista lista = new Lista();
-            lista.setId(id);
-            lista.setNome(listaDto.getNome());
-            currentLista = listaRepository.save(lista);
+            if (listaToUpdate != null) {
+                User usuario = userRepository.findUserById(listaDto.getUsuarioId());
+
+                if (usuario != null) {
+                    listaToUpdate.setNome(listaDto.getNome());
+
+                    Lista updatedLista = listaRepository.save(listaToUpdate);
+
+                    return ResponseEntity.ok(updatedLista);
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (EntidadeExcepition ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        return ResponseEntity.ok(currentLista);
     }
 
     @CrossOrigin

@@ -78,12 +78,10 @@ public class HomeController {
     @CrossOrigin
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto) {
-        // checking for username exists in a database
         if (userRepository.existsByUserName(signUpDto.getUsername())) {
             return new ResponseEntity<>("Username is already exist!", HttpStatus.BAD_REQUEST);
         }
 
-        // checking for email exists in a database
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
             return new ResponseEntity<>("Email is already exist!", HttpStatus.BAD_REQUEST);
         }
@@ -98,7 +96,6 @@ public class HomeController {
 
         Endereco enderecoStored = enderecoRepository.save(endereco);
 
-        // creating user object
         User user = new User();
 
         user.setName(signUpDto.getName());
